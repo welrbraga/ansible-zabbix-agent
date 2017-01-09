@@ -3,11 +3,11 @@
 sign_keys:
   "32":
     wheezy:
-      sign_key: 79EA5ED4
+      sign_key: E709712C
     jessie:
-      sign_key: 79EA5ED4
+      sign_key: E709712C
     trusty:
-      sign_key: 79EA5ED4
+      sign_key: E709712C
     xenial:
       sign_key: E709712C
   "30":
@@ -30,6 +30,8 @@ sign_keys:
       sign_key: 79EA5ED4
   "22":
     squeeze:
+      sign_key: 79EA5ED4
+    wheezy:
       sign_key: 79EA5ED4
     jessie:
       sign_key: 79EA5ED4
