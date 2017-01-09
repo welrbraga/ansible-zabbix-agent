@@ -9,49 +9,54 @@
       zabbix_short_version: "{{ zabbix_version | regex_replace('\\.', '') }}"
 
 - name: "Debian | Installing deb repository Debian"
-  apt_repository: repo="deb http://repo.zabbix.com/zabbix/{{ zabbix_version }}/debian/ {{ ansible_distribution_release }} main"
+  apt_repository: repo="deb http://repo.zabbix.com/zabbix/{{ zabbix_version }}/debian/ {{ ansible_lsb.codename }} main"
                   state=present
   when: ansible_distribution == "Debian" and zabbix_repo == "zabbix"
   become: yes
   tags:
     - zabbix-agent
     - init
+    - repository
 
 - name: "Debian | Installing deb-src repository Debian"
-  apt_repository: repo="deb-src http://repo.zabbix.com/zabbix/{{ zabbix_version }}/debian/ {{ ansible_distribution_release }} main"
+  apt_repository: repo="deb-src http://repo.zabbix.com/zabbix/{{ zabbix_version }}/debian/ {{ ansible_lsb.codename }} main"
                   state=present
   when: ansible_distribution == "Debian" and zabbix_repo == "zabbix"
   become: yes
   tags:
     - zabbix-agent
     - init
+    - repository
 
 - name: "Debian | Installing deb repository Ubuntu"
-  apt_repository: repo="deb http://repo.zabbix.com/zabbix/{{ zabbix_version }}/ubuntu/ {{ ansible_distribution_release }} main"
+  apt_repository: repo="deb http://repo.zabbix.com/zabbix/{{ zabbix_version }}/ubuntu/ {{ ansible_lsb.codename }} main"
                   state=present
   when: ansible_distribution == "Ubuntu" and zabbix_repo == "zabbix"
   become: yes
   tags:
     - zabbix-agent
     - init
+    - repository
 
 - name: "Debian | Installing deb-src repository Ubuntu"
-  apt_repository: repo="deb-src http://repo.zabbix.com/zabbix/{{ zabbix_version }}/ubuntu/ {{ ansible_distribution_release }} main"
+  apt_repository: repo="deb-src http://repo.zabbix.com/zabbix/{{ zabbix_version }}/ubuntu/ {{ ansible_lsb.codename }} main"
                   state=present
   when: ansible_distribution == "Ubuntu" and zabbix_repo == "zabbix"
   become: yes
   tags:
     - zabbix-agent
     - init
+    - repository
 
 - name: "Debian | Install gpg key"
-  apt_key: id="{{ sign_keys[zabbix_short_version][ansible_distribution_release]['sign_key'] }}"
+  apt_key: id="{{ sign_keys[zabbix_short_version][ansible_lsb.codename]['sign_key'] }}"
            url=http://repo.zabbix.com/zabbix-official-repo.key
   when: zabbix_repo == "zabbix"
   become: yes
   tags:
     - zabbix-agent
     - init
+    - key
 
 - name: "Debian | Installing zabbix-agent"
   apt: pkg={{ zabbix_agent_package }}
@@ -66,6 +71,7 @@
   tags:
     - zabbix-agent
     - init
+    - package
 
 - name: "Debian | Enable the service"
   service: name={{ zabbix_agent_service }}
